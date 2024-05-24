@@ -1,16 +1,17 @@
+import './registration.css'
 import { Button, Grid, Paper, TextField } from '@mui/material';
 import { Field, Formik, ErrorMessage } from 'formik';
 import React from 'react';
 import axios from 'axios';
 import { object, string } from 'yup';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Registration() {
     const userSchema = object({
         fname: string().required('First Name is required'),
         lname: string().required('Last Name is required'),
         email: string().required('Email is required').email('Invalid email address'),
-        password: string().min(6, 'Password must be at least 6 characters').max(10, 'Password must be at most 10 characters')
+        password: string().min(6, 'Password must be at least 6 characters').max(10, 'Password must be at most 10 characters').required('email is required')
     });
     const navigate = useNavigate()
     const handleSubmit = async (userData, { setSubmitting }) => {
@@ -29,9 +30,9 @@ export default function Registration() {
     }
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <div className='d-flex justify-content-center'>
             <center>
-                <Paper elevation={5} style={{ width: '400px', marginTop: '4rem', padding: '1rem' }}>
+                <Paper elevation={6} className='register-container'>
                     <h1>Sign Up</h1>
 
                     <Formik
@@ -45,9 +46,10 @@ export default function Registration() {
                         onSubmit={handleSubmit}
                     >
                         {(formik) => (
+
                             <form onSubmit={formik.handleSubmit}>
                                 <Grid container spacing={3}>
-                                    <Grid item xs={11}>
+                                    <Grid item xs={12}>
                                         <Field
                                             as={TextField}
                                             variant="outlined"
@@ -64,7 +66,7 @@ export default function Registration() {
                                             helperText={<ErrorMessage name="fname" />}
                                         />
                                     </Grid>
-                                    <Grid item xs={11}>
+                                    <Grid item xs={12}>
                                         <Field
                                             as={TextField}
                                             variant="outlined"
@@ -80,7 +82,7 @@ export default function Registration() {
                                             helperText={<ErrorMessage name="lname" />}
                                         />
                                     </Grid>
-                                    <Grid item xs={11}>
+                                    <Grid item xs={12}>
                                         <Field
                                             as={TextField}
                                             variant="outlined"
@@ -96,7 +98,7 @@ export default function Registration() {
                                             helperText={<ErrorMessage name="email" />}
                                         />
                                     </Grid>
-                                    <Grid item xs={11}>
+                                    <Grid item xs={12}>
                                         <Field
                                             as={TextField}
                                             variant="outlined"
@@ -122,12 +124,16 @@ export default function Registration() {
                                 >
                                     Register
                                 </Button>
+                                <Grid>
+                                    <p>Already have an account ? <Link to='/login' className='registerLink'>Sign In</Link></p>
+                                </Grid>
+
                             </form>
                         )}
                     </Formik>
                 </Paper>
             </center>
-        </div>
+        </div >
     );
 }
 
